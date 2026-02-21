@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - AYORA TECH Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f3460;
+            --secondary: #e94560;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--primary) 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header .logo i {
+            color: var(--secondary);
+        }
+
+        .sidebar-header .role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            margin-left: 30px;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--secondary);
+        }
+
+        .nav-item i {
+            width: 25px;
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-title h1 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 3px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f7fa;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        /* Filters Bar */
+        .filters-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .search-input {
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            width: 300px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-select {
+            padding: 12px 15px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .product-card.inactive {
+            opacity: 0.6;
+        }
+
+        .product-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background: #f5f7fa;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .product-status.active {
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+        }
+
+        .product-status.inactive {
+            background: rgba(108, 117, 125, 0.9);
+            color: white;
+        }
+
+        .product-category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .product-category-badge.laptop {
+            background: rgba(15, 52, 96, 0.9);
+            color: white;
+        }
+
+        .product-category-badge.accessory {
+            background: rgba(233, 69, 96, 0.9);
+            color: white;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .product-specs {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: #f5f7fa;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .image-preview:hover {
+            border-color: var(--primary);
+            background: #f0f4f8;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        .image-preview .placeholder {
+            color: #999;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .image-preview .placeholder:hover {
+            color: var(--primary);
+        }
+
+        .image-preview .placeholder:hover i {
+            color: var(--primary);
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 3000;
+            animation: toastSlide 0.3s ease;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        @keyframes toastSlide {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .toast-icon.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .toast-icon.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .toast-content h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .toast-content p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .top-header {
+                padding-left: 70px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                AYORA TECH
+            </div>
+            <div class="role">Admin Panel</div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="admin-dashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="admin-products.html" class="nav-item active">
+                <i class="fas fa-laptop"></i>
+                Products
+                <span class="badge" id="productBadge">0</span>
+            </a>
+            <a href="admin-messages.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                Messages
+                <span class="badge" id="messageBadge">0</span>
+            </a>
+            <a href="admin-settings.html" class="nav-item">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title">
+                <h1>Products</h1>
+                <p>Manage your laptop and accessory inventory</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openModal()">
+                    <i class="fas fa-plus"></i> Add Product
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="laptop">Laptops</option>
+                        <option value="accessory">Accessories</option>
+                    </select>
+                    <select class="filter-select" id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Product</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    
+                    <div class="image-preview" id="imagePreview">
+                        <div class="placeholder">
+                            <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                            <p>Image preview will appear here</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productImage"><i class="fas fa-image"></i> Product Image Filename</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" class="form-control" id="productImage" placeholder="e.g., laptop 1.jpg" style="flex: 1;">
+                            <button type="button" class="btn btn-secondary" onclick="showImageHelp()" title="Help">
+                                <i class="fas fa-question-circle"></i>
+                            </button>
+                        </div>
+                        <small style="color: #666; font-size: 0.8rem; display: block; margin-top: 5px;">
+                            <i class="fas fa-info-circle"></i> Enter the exact image filename as it appears in your website folder
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productName">Product Name *</label>
+                        <input type="text" class="form-control" id="productName" placeholder="e.g., HP EliteBook i7" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productCategory">Category *</label>
+                            <select class="form-control" id="productCategory" required>
+                                <option value="laptop">Laptop</option>
+                                <option value="accessory">Accessory</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Price *</label>
+                            <input type="text" class="form-control" id="productPrice" placeholder="e.g., KSH 28,000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productSpecs">Specifications</label>
+                        <input type="text" class="form-control" id="productSpecs" placeholder="e.g., 8GB RAM • 256GB SSD">
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="productActive" checked>
+                        <label for="productActive">Product is active and visible on website</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProduct()">
+                    <i class="fas fa-save"></i> Save Product
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Confirm Delete</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteProductName"></strong>?</p>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <h4 id="toastTitle">Success</h4>
+            <p id="toastMessage">Product saved successfully</p>
+        </div>
+    </div>
+
+    <script>
+        // Check login status
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+
+        let products = [];
+        let deleteProductId = null;
+
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Show image help
+        function showImageHelp() {
+            alert(`📷 How to Add Product Images
+
+1. Upload your product images to the same folder as your website files
+2. Note the exact filename (e.g., "laptop 1.jpg", "charger.jpg")
+3. Enter that filename in the field above
+4. The preview will show if the image exists
+
+💡 Tips:
+• Use simple filenames without special characters
+• Supported formats: .jpg, .jpeg, .png, .gif
+• Recommended size: 400x300 pixels
+• Keep images in the same folder as your HTML files
+
+📁 Example filenames:
+  - laptop-hp-elitebook.jpg
+  - charger.jpg
+  - bag-black.jpg`);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Load products
+        function loadProducts() {
+            products = JSON.parse(localStorage.getItem('ayoraProducts')) || [];
+            renderProducts();
+            updateBadges();
+        }
+
+        // Update badges
+        function updateBadges() {
+            document.getElementById('productBadge').textContent = products.length;
+            const messages = JSON.parse(localStorage.getItem('ayoraMessages')) || [];
+            document.getElementById('messageBadge').textContent = messages.length;
+        }
+
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            let filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                                    product.specs.toLowerCase().includes(searchTerm);
+                const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
+                const matchesStatus = statusFilter === 'all' || 
+                                    (statusFilter === 'active' && product.active) ||
+                                    (statusFilter === 'inactive' && !product.active);
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No products found</h3>
+                        <p>Add your first product or adjust your filters</p>
+                        <button class="btn btn-primary" onclick="openModal()">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card ${product.active ? '' : 'inactive'}">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200'">
+                        <span class="product-status ${product.active ? 'active' : 'inactive'}">
+                            ${product.active ? 'Active' : 'Inactive'}
+                        </span>
+                        <span class="product-category-badge ${product.category}">
+                            ${product.category}
+                        </span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-specs">${product.specs}</p>
+                        <div class="product-price">${product.price}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="editProduct(${product.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open modal for add/edit
+        function openModal(productId = null) {
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const form = document.getElementById('productForm');
+            
+            form.reset();
+            document.getElementById('imagePreview').innerHTML = `
+                <div class="placeholder">
+                    <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                    <p>Image preview will appear here</p>
+                </div>
+            `;
+
+            if (productId) {
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    modalTitle.textContent = 'Edit Product';
+                    document.getElementById('productId').value = product.id;
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productSpecs').value = product.specs;
+                    document.getElementById('productImage').value = product.image;
+                    document.getElementById('productActive').checked = product.active;
+                    updateImagePreview(product.image);
+                }
+            } else {
+                modalTitle.textContent = 'Add New Product';
+                document.getElementById('productId').value = '';
+            }
+
+            modal.classList.add('show');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('show');
+        }
+
+        // Update image preview
+        function updateImagePreview(src) {
+            const preview = document.getElementById('imagePreview');
+            if (src && src.trim() !== '') {
+                preview.innerHTML = `<img src="${src}" alt="Preview" onerror="showImagePlaceholder(this)">`;
+            } else {
+                showImagePlaceholder();
+            }
+        }
+
+        // Show placeholder when image fails to load
+        function showImagePlaceholder(imgElement = null) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = `
+                <div class="placeholder" onclick="focusImageInput()" style="cursor: pointer;">
+                    <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 10px; color: #ccc;"></i>
+                    <p>Click to enter image filename</p>
+                    <p style="font-size: 0.8rem; color: #999; margin-top: 5px;">e.g., laptop 1.jpg</p>
+                </div>
+            `;
+        }
+
+        // Focus the image input
+        function focusImageInput() {
+            document.getElementById('productImage').focus();
+        }
+
+        // Image input change handler
+        document.getElementById('productImage').addEventListener('input', function() {
+            updateImagePreview(this.value);
+        });
+
+        // Also update on keyup for better responsiveness
+        document.getElementById('productImage').addEventListener('keyup', function() {
+            updateImagePreview(this.value);
+        });
+
+        // Save product
+        function saveProduct() {
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value.trim();
+            const category = document.getElementById('productCategory').value;
+            const price = document.getElementById('productPrice').value.trim();
+            const specs = document.getElementById('productSpecs').value.trim();
+            const image = document.getElementById('productImage').value.trim();
+            const active = document.getElementById('productActive').checked;
+
+            if (!name || !price) {
+                showToast('Error', 'Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (id) {
+                // Update existing product
+                const index = products.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    products[index] = {
+                        ...products[index],
+                        name,
+                        category,
+                        price,
+                        specs,
+                        image: image || products[index].image,
+                        active
+                    };
+                    showToast('Success', 'Product updated successfully', 'success');
+                }
+            } else {
+                // Add new product
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({
+                    id: newId,
+                    name,
+                    category,
+                    price,
+                    specs,
+                    image: image || 'https://via.placeholder.com/300x200',
+                    active
+                });
+                showToast('Success', 'Product added successfully', 'success');
+            }
+
+            localStorage.setItem('ayoraProducts', JSON.stringify(products));
+            closeModal();
+            renderProducts();
+            updateBadges();
+        }
+
+        // Edit product
+        function editProduct(id) {
+            openModal(id);
+        }
+
+        // Delete product
+        function deleteProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                deleteProductId = id;
+                document.getElementById('deleteProductName').textContent = product.name;
+                document.getElementById('deleteModal').classList.add('show');
+            }
+        }
+
+        // Close delete modal
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+            deleteProductId = null;
+        }
+
+        // Confirm delete
+        function confirmDelete() {
+            if (deleteProductId) {
+                products = products.filter(p => p.id !== deleteProductId);
+                localStorage.setItem('ayoraProducts', JSON.stringify(products));
+                showToast('Success', 'Product deleted successfully', 'success');
+                closeDeleteModal();
+                renderProducts();
+                updateBadges();
+            }
+        }
+
+        // Show toast notification
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastIcon.className = `toast-icon ${type}`;
+            toastIcon.innerHTML = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Filter handlers
+        document.getElementById('searchInput').addEventListener('input', renderProducts);
+        document.getElementById('categoryFilter').addEventListener('change', renderProducts);
+        document.getElementById('statusFilter').addEventListener('change', renderProducts);
+
+        // Close modals on overlay click
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteModal();
+        });
+
+        // Check for add action in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('action') === 'add') {
+            setTimeout(() => openModal(), 500);
+        }
+
+        // Load products on page load
+        loadProducts();
+    </script>
+</body>
+</html>

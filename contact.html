@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AYORA TECH – Affordable laptops, accessories, and professional laptop repair services in Nyeri, Kenya. Order via WhatsApp.">
+    <meta name="keywords" content="laptops Nyeri, laptop repair Nyeri, HP Dell Lenovo laptops Kenya, AYORA TECH">
+    <meta name="author" content="AYORA TECH">
+    <title>Contact Us - AYORA TECH | Laptops & Repairs in Nyeri</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+<base target="_blank">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <h1 class="logo">AYORA TECH</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2 class="contact-title">Contact AYORA TECH</h2>
+
+            <div class="contact-info-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Our Location</h3>
+                            <p>Nyeri, Kenya</p>
+                            <p class="contact-subtext">Serving Nyeri and surrounding areas</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Phone & WhatsApp</h3>
+                            <p class="phone-number">0112318201</p>
+                            <p class="contact-subtext">Available 24/7 for inquiries</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email Address</h3>
+                            <p>ayoratech@gmail.com</p>
+                            <p class="contact-subtext">We respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Business Hours</h3>
+                            <p>Monday - Saturday: 8:00 AM - 7:00 PM</p>
+                            <p>Sunday: 10:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-actions">
+                    <h3 class="action-title">Quick Actions</h3>
+
+                    <a href="https://wa.me/254112318201" target="_blank" class="whatsapp-action-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>Chat on WhatsApp</h4>
+                            <p>Get instant support and inquiries</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    <a href="tel:0112318201" class="call-action-btn">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Call Us Now</h4>
+                            <p>Speak directly with our team</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    <a href="products.html" class="products-action-btn">
+                        <i class="fas fa-laptop"></i>
+                        <div>
+                            <h4>Browse Products</h4>
+                            <p>View our latest laptops & accessories</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    <a href="about.html" class="about-action-btn">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <h4>About Our Services</h4>
+                            <p>Learn more about AYORA TECH</p>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="map-section">
+                <h3 class="map-title">Find Us in Nyeri</h3>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps?q=Kamwenja%20Teachers%20Training%20College%20Nyeri%20Kenya&z=17&output=embed"
+                        width="100%"
+                        height="350"
+                        style="border:0;"
+                        allowfullscreen
+                        loading="lazy"
+                        title="AYORA TECH Location in Nyeri">
+                    </iframe>
+                    <div class="map-overlay">
+                        <p><i class="fas fa-map-pin"></i> Located in Nyeri, Kenya</p>
+                        <p><i class="fas fa-car"></i> Easy to access with parking available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Contact Form -->
+            <div class="quick-contact-form">
+                <h3 class="form-title">Send Us a Quick Message</h3>
+                <form id="contactForm" onsubmit="return false;">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="quickName" placeholder="Your Name" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="quickPhone" placeholder="Phone Number" class="form-input" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <textarea id="quickMessage" placeholder="Your message..." class="form-textarea" rows="4"></textarea>
+                        </div>
+                        <!-- CRITICAL FIX: Added proper ID to button and removed inline onclick -->
+                        <button type="button" class="send-message-btn" id="sendMessageBtn">
+                            <i class="fas fa-paper-plane"></i> Send Message via WhatsApp
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flow-buttons">
+                <a href="index.html" class="flow-btn">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a href="products.html" class="flow-btn outline">
+                    <i class="fas fa-shopping-cart"></i> Shop Products
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Call Button -->
+    <a href="tel:0112318201" class="call-float" title="Call AYORA TECH">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-main">© 2025 AYORA TECH</p>
+            <p>Your Trusted Technology Partner in Nyeri, Kenya</p>
+            <p class="footer-credit">CREATED BY AYORA BRIAN</p>
+        </div>
+    </footer>
+
+    <!-- Load the FIXED script -->
+    <script src="contact-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AYORA TECH – Premium laptops and computer accessories in Nyeri, Kenya. HP, Dell, Lenovo laptops at affordable prices.">
+    <meta name="keywords" content="laptops Nyeri, laptop accessories, HP laptops, Dell laptops, Lenovo laptops, Acer laptops, MacBook Kenya">
+    <meta name="author" content="AYORA TECH">
+    <title>Products - AYORA TECH | Premium Laptops & Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <h1 class="logo">AYORA TECH</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html" class="active">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Products Section -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">All Products</h2>
+            
+            <!-- SEARCH BAR AT THE TOP -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" 
+                           id="productSearch" 
+                           placeholder="Search laptops or accessories... (e.g., 'HP i7', 'mouse', '16GB RAM')"
+                           autocomplete="off">
+                    <button id="clearSearch" title="Clear search">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-hint">
+                    Try: "Dell", "MacBook", "Charger", "i5", "512GB"
+                </div>
+                <div class="search-results-info" id="searchResultsInfo"></div>
+            </div>
+            
+            <!-- FILTER BUTTONS -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Products</button>
+                <button class="filter-btn" data-filter="laptop">Laptops</button>
+                <button class="filter-btn" data-filter="accessory">Accessories</button>
+            </div>
+
+            <!-- PRODUCT GRID - Dynamically populated from LocalStorage -->
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded here by JavaScript -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #0f3460;"></i>
+                    <p style="margin-top: 15px; color: #666;">Loading products...</p>
+                </div>
+            </div>
+
+            <!-- Navigation to About page -->
+            <div class="flow-buttons">
+                <a href="about.html" class="flow-btn">
+                    Learn About Us <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Call Button -->
+    <a href="tel:0112318201" class="call-float" title="Call AYORA TECH">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- WhatsApp Direct Button -->
+    <a href="https://wa.me/254112318201" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-main">© 2025 AYORA TECH</p>
+            <p>Your Trusted Technology Partner in Nyeri, Kenya</p>
+            <p class="footer-credit">CREATED BY AYORA BRIAN</p>
+        </div>
+    </footer>
+
+    <script src="products-script.js"></script>
+</body>
+</html>

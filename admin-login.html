@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - AYORA TECH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f3460;
+            margin-bottom: 10px;
+        }
+
+        .login-header .logo i {
+            color: #e94560;
+            margin-right: 10px;
+        }
+
+        .login-header h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #0f3460;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0f3460 0%, #e94560 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #0f3460;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link a:hover {
+            color: #e94560;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-login.loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Setup hint */
+        .setup-hint {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #1565C0;
+        }
+
+        .setup-hint code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>AYORA TECH
+            </div>
+            <h2>Admin Dashboard</h2>
+            <p>Secure access for authorized personnel only</p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">Invalid credentials</span>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <span class="spinner"></span>
+                <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Login</span>
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+        </div>
+
+        <div class="setup-hint">
+            <strong>Default Login:</strong><br>
+            Username: <code>admin</code><br>
+            Password: <code>ayora2025</code><br><br>
+            <em>Change these in Settings after first login.</em>
+        </div>
+    </div>
+
+    <script>
+        // Check if already logged in
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            window.location.href = 'admin-dashboard.html';
+        }
+
+        // Initialize default admin credentials if not set
+        if (!localStorage.getItem('adminCredentials')) {
+            const defaultCredentials = {
+                username: 'admin',
+                password: 'ayora2025'
+            };
+            localStorage.setItem('adminCredentials', JSON.stringify(defaultCredentials));
+        }
+
+        // Initialize products in LocalStorage if not exists
+        if (!localStorage.getItem('ayoraProducts')) {
+            const defaultProducts = [
+                { id: 1, name: "HP EliteBook folio i7", specs: "8GB RAM • 256GB SSD", price: "KSH 28,000", category: "laptop", image: "laptop 14.jpg", active: true },
+                { id: 2, name: "HP EliteBook 840 g5 i5", specs: "8GB RAM • 256GB SSD", price: "KSH 26,000", category: "laptop", image: "laptop 2.jpeg", active: true },
+                { id: 3, name: "Dell latitude 3400", specs: "8GB RAM • 256GB SSD", price: "KSH 28,000", category: "laptop", image: "laptop 12.jpg", active: true },
+                { id: 4, name: "Dell latitude 6320 intel i5", specs: "4GB RAM • 500GB HDD", price: "KSH 25,000", category: "laptop", image: "laptop 11.jpg", active: true },
+                { id: 5, name: "Dell inspiron 13 7390", specs: "8GB RAM • 256GB SSD TOUCHSCREEN", price: "KSH 29,000", category: "laptop", image: "laptop 13.jpg", active: true },
+                { id: 6, name: "Dell Latitude i7", specs: "16GB RAM • 512GB SSD", price: "KSH 28,000", category: "laptop", image: "laptop 3.jpg", active: true },
+                { id: 7, name: "Dell Latitude i5", specs: "8GB RAM • 256GB SSD", price: "KSH 22,000", category: "laptop", image: "laptop 4.jpg", active: true },
+                { id: 8, name: "Lenovo ThinkPad i7", specs: "16GB RAM • 512GB SSD", price: "KSH 30,000", category: "laptop", image: "laptop 5.jpg", active: true },
+                { id: 9, name: "Lenovo ThinkPad i5", specs: "8GB RAM • 256GB SSD", price: "KSH 23,000", category: "laptop", image: "laptop 6.jpg", active: true },
+                { id: 10, name: "Acer Aspire i5", specs: "8GB RAM • 512GB SSD", price: "KSH 32,000", category: "laptop", image: "laptop 7.jpg", active: true },
+                { id: 11, name: "HP Pavilion i5", specs: "12GB RAM • 512GB SSD", price: "KSH 35,000", category: "laptop", image: "laptop 8.jpg", active: true },
+                { id: 12, name: "MacBook Air 2017", specs: "8GB RAM • 256GB SSD", price: "KSH 45,000", category: "laptop", image: "laptop 9.jpg", active: true },
+                { id: 13, name: "MacBook Pro 2016", specs: "16GB RAM • 512GB SSD", price: "KSH 55,000", category: "laptop", image: "laptop 10.jpg", active: true },
+                { id: 14, name: "Laptop Charger", specs: "Universal charger", price: "KSH 1,800", category: "accessory", image: "charger.jpg", active: true },
+                { id: 15, name: "Laptop Bag", specs: "Waterproof & durable", price: "KSH 2,000", category: "accessory", image: "bag.jpg", active: true },
+                { id: 16, name: "Wireless Mouse", specs: "Rechargeable", price: "KSH 800", category: "accessory", image: "mouse.jpg", active: true },
+                { id: 17, name: "Epson Ecotank l3211", specs: "ALL-IN-ONE TANK PRINTER", price: "KSH 29,000", category: "accessory", image: "printer 2.jpg", active: true },
+                { id: 18, name: "Epson Ecotank l3250", specs: "ALL-IN-ONE TANK PRINTER", price: "KSH 31,000", category: "accessory", image: "printer 1.jpg", active: true },
+                { id: 19, name: "USB Keyboard", specs: "Comfort typing", price: "KSH 900", category: "accessory", image: "keyboard.jpg", active: true },
+                { id: 20, name: "Cooling Pad", specs: "Dual fan", price: "KSH 1,500", category: "accessory", image: "cooling.jpg", active: true },
+                { id: 21, name: "External HDD 1TB", specs: "USB 3.0", price: "KSH 6,500", category: "accessory", image: "harddisk.jpg", active: true },
+                { id: 22, name: "Flash Disk 64GB", specs: "High speed", price: "KSH 700", category: "accessory", image: "flash.jpg", active: true },
+                { id: 23, name: "HDMI Cable", specs: "4K support", price: "KSH 600", category: "accessory", image: "hdmi.jpg", active: true }
+            ];
+            localStorage.setItem('ayoraProducts', JSON.stringify(defaultProducts));
+        }
+
+        // Initialize messages array if not exists
+        if (!localStorage.getItem('ayoraMessages')) {
+            localStorage.setItem('ayoraMessages', JSON.stringify([]));
+        }
+
+        // Initialize settings if not exists
+        if (!localStorage.getItem('ayoraSettings')) {
+            const defaultSettings = {
+                businessName: "AYORA TECH",
+                phoneNumber: "254112318201",
+                email: "info@ayoratech.co.ke",
+                address: "Nyeri, Kenya",
+                whatsappMessage: "Hello AYORA TECH, I'm interested in your products."
+            };
+            localStorage.setItem('ayoraSettings', JSON.stringify(defaultSettings));
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+
+            // Show loading state
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+
+            // Simulate network delay
+            setTimeout(() => {
+                const credentials = JSON.parse(localStorage.getItem('adminCredentials'));
+
+                if (username === credentials.username && password === credentials.password) {
+                    // Login successful
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    localStorage.setItem('adminLoginTime', new Date().toISOString());
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    // Login failed
+                    errorText.textContent = 'Invalid username or password';
+                    errorMessage.classList.add('show');
+                    loginBtn.classList.remove('loading');
+                    loginBtn.disabled = false;
+                    
+                    // Shake animation
+                    document.querySelector('.login-container').style.animation = 'none';
+                    setTimeout(() => {
+                        document.querySelector('.login-container').style.animation = 'slideUp 0.5s ease';
+                    }, 10);
+                }
+            }, 800);
+        });
+
+        // Clear error on input
+        document.getElementById('username').addEventListener('input', () => {
+            document.getElementById('errorMessage').classList.remove('show');
+        });
+        document.getElementById('password').addEventListener('input', () => {
+            document.getElementById('errorMessage').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

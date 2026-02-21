@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - AYORA TECH Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f3460;
+            --secondary: #e94560;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--primary) 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header .logo i {
+            color: var(--secondary);
+        }
+
+        .sidebar-header .role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            margin-left: 30px;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left-color: var(--secondary);
+        }
+
+        .nav-item i {
+            width: 25px;
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-title h1 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 3px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f7fa;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .stat-box h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-box p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Filters Bar */
+        .filters-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .search-input {
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            width: 300px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Messages List */
+        .messages-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .message-item {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .message-item:hover {
+            background: #f8f9fa;
+        }
+
+        .message-item.unread {
+            background: rgba(15, 52, 96, 0.03);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .message-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .message-phone {
+            color: var(--primary);
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .message-text {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-actions .btn {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+
+        .unread-badge {
+            background: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #666;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: #f5f7fa;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .message-detail {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            width: 100px;
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            flex: 1;
+            color: #333;
+        }
+
+        .message-full-text {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 3000;
+            animation: toastSlide 0.3s ease;
+        }
+
+        .toast.show {
+            display: flex;
+        }
+
+        @keyframes toastSlide {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .toast-icon.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .toast-icon.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+
+        .toast-content h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .toast-content p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .top-header {
+                padding-left: 70px;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .message-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .message-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                AYORA TECH
+            </div>
+            <div class="role">Admin Panel</div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="admin-dashboard.html" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="admin-products.html" class="nav-item">
+                <i class="fas fa-laptop"></i>
+                Products
+                <span class="badge" id="productBadge">0</span>
+            </a>
+            <a href="admin-messages.html" class="nav-item active">
+                <i class="fas fa-envelope"></i>
+                Messages
+                <span class="badge" id="messageBadge">0</span>
+            </a>
+            <a href="admin-settings.html" class="nav-item">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="page-title">
+                <h1>Messages</h1>
+                <p>View and manage customer inquiries</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-danger" onclick="clearAllMessages()">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-box">
+                    <h3 id="totalMessages">0</h3>
+                    <p>Total Messages</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="unreadMessages">0</h3>
+                    <p>Unread</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="todayMessages">0</h3>
+                    <p>Today</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="thisWeekMessages">0</h3>
+                    <p>This Week</p>
+                </div>
+            </div>
+
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search messages...">
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <select class="filter-select" id="filterSelect">
+                        <option value="all">All Messages</option>
+                        <option value="unread">Unread Only</option>
+                        <option value="read">Read Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Messages List -->
+            <div class="messages-container" id="messagesContainer">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Message Detail Modal -->
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-envelope"></i> Message Details</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <a href="#" class="btn btn-success" id="whatsappReplyBtn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Reply on WhatsApp
+                </a>
+                <button class="btn btn-danger" id="deleteMessageBtn" onclick="deleteCurrentMessage()">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <h4 id="toastTitle">Success</h4>
+            <p id="toastMessage">Operation completed</p>
+        </div>
+    </div>
+
+    <script>
+        // Check login status
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+
+        let messages = [];
+        let currentMessageId = null;
+
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Load messages
+        function loadMessages() {
+            messages = JSON.parse(localStorage.getItem('ayoraMessages')) || [];
+            updateStats();
+            renderMessages();
+            updateBadges();
+        }
+
+        // Update badges
+        function updateBadges() {
+            const products = JSON.parse(localStorage.getItem('ayoraProducts')) || [];
+            document.getElementById('productBadge').textContent = products.length;
+            document.getElementById('messageBadge').textContent = messages.length;
+        }
+
+        // Update statistics
+        function updateStats() {
+            const unread = messages.filter(m => !m.read).length;
+            const today = new Date().toDateString();
+            const todayCount = messages.filter(m => new Date(m.date).toDateString() === today).length;
+            
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            const weekCount = messages.filter(m => new Date(m.date) >= oneWeekAgo).length;
+
+            document.getElementById('totalMessages').textContent = messages.length;
+            document.getElementById('unreadMessages').textContent = unread;
+            document.getElementById('todayMessages').textContent = todayCount;
+            document.getElementById('thisWeekMessages').textContent = weekCount;
+        }
+
+        // Render messages
+        function renderMessages() {
+            const container = document.getElementById('messagesContainer');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filter = document.getElementById('filterSelect').value;
+
+            let filteredMessages = messages.filter(msg => {
+                const matchesSearch = msg.name.toLowerCase().includes(searchTerm) ||
+                                    msg.message.toLowerCase().includes(searchTerm) ||
+                                    msg.phone.includes(searchTerm);
+                const matchesFilter = filter === 'all' || 
+                                    (filter === 'unread' && !msg.read) ||
+                                    (filter === 'read' && msg.read);
+                return matchesSearch && matchesFilter;
+            });
+
+            // Sort by date (newest first)
+            filteredMessages.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (filteredMessages.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No messages yet</h3>
+                        <p>Customer inquiries will appear here when they contact you through the website.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredMessages.map(msg => {
+                const initials = msg.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                const timeAgo = getTimeAgo(new Date(msg.date));
+                return `
+                    <div class="message-item ${!msg.read ? 'unread' : ''}" onclick="openMessage(${msg.id})">
+                        <div class="message-avatar">${initials}</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <div>
+                                    <span class="message-sender">${msg.name}</span>
+                                    ${!msg.read ? '<span class="unread-badge">NEW</span>' : ''}
+                                    <span class="message-phone"><i class="fas fa-phone"></i> ${msg.phone}</span>
+                                </div>
+                                <span class="message-time">${timeAgo}</span>
+                            </div>
+                            <p class="message-text">${msg.message || 'No message provided'}</p>
+                            <div class="message-actions" onclick="event.stopPropagation()">
+                                <a href="https://wa.me/${msg.phone.replace(/\D/g, '')}" target="_blank" class="btn btn-success btn-sm">
+                                    <i class="fab fa-whatsapp"></i> Reply
+                                </a>
+                                <button class="btn btn-secondary btn-sm" onclick="markAsRead(${msg.id})">
+                                    <i class="fas fa-check"></i> Mark Read
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteMessage(${msg.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get time ago string
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+            return date.toLocaleDateString('en-KE', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Open message detail
+        function openMessage(id) {
+            const msg = messages.find(m => m.id === id);
+            if (!msg) return;
+
+            currentMessageId = id;
+
+            // Mark as read
+            if (!msg.read) {
+                msg.read = true;
+                localStorage.setItem('ayoraMessages', JSON.stringify(messages));
+                renderMessages();
+                updateStats();
+            }
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="message-detail">
+                    <div class="detail-row">
+                        <span class="detail-label">From:</span>
+                        <span class="detail-value">${msg.name}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value">${msg.phone}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value">${new Date(msg.date).toLocaleString('en-KE')}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">${msg.read ? 'Read' : 'Unread'}</span>
+                    </div>
+                </div>
+                <h4 style="margin-bottom: 10px; color: var(--dark);">Message:</h4>
+                <div class="message-full-text">${msg.message || 'No message provided'}</div>
+            `;
+
+            // Update WhatsApp reply link
+            const phone = msg.phone.replace(/\D/g, '');
+            const replyMessage = encodeURIComponent(`Hello ${msg.name}, thank you for contacting AYORA TECH. `);
+            document.getElementById('whatsappReplyBtn').href = `https://wa.me/${phone}?text=${replyMessage}`;
+
+            document.getElementById('messageModal').classList.add('show');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('messageModal').classList.remove('show');
+            currentMessageId = null;
+        }
+
+        // Mark message as read
+        function markAsRead(id) {
+            const msg = messages.find(m => m.id === id);
+            if (msg) {
+                msg.read = true;
+                localStorage.setItem('ayoraMessages', JSON.stringify(messages));
+                renderMessages();
+                updateStats();
+                showToast('Success', 'Message marked as read', 'success');
+            }
+        }
+
+        // Delete message
+        function deleteMessage(id) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                messages = messages.filter(m => m.id !== id);
+                localStorage.setItem('ayoraMessages', JSON.stringify(messages));
+                renderMessages();
+                updateStats();
+                showToast('Success', 'Message deleted', 'success');
+            }
+        }
+
+        // Delete current message from modal
+        function deleteCurrentMessage() {
+            if (currentMessageId) {
+                deleteMessage(currentMessageId);
+                closeModal();
+            }
+        }
+
+        // Clear all messages
+        function clearAllMessages() {
+            if (messages.length === 0) {
+                showToast('Info', 'No messages to clear', 'error');
+                return;
+            }
+            if (confirm('Are you sure you want to delete ALL messages? This cannot be undone.')) {
+                messages = [];
+                localStorage.setItem('ayoraMessages', JSON.stringify(messages));
+                renderMessages();
+                updateStats();
+                showToast('Success', 'All messages cleared', 'success');
+            }
+        }
+
+        // Show toast notification
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastIcon.className = `toast-icon ${type}`;
+            toastIcon.innerHTML = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-info-circle"></i>';
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Filter handlers
+        document.getElementById('searchInput').addEventListener('input', renderMessages);
+        document.getElementById('filterSelect').addEventListener('change', renderMessages);
+
+        // Close modal on overlay click
+        document.getElementById('messageModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Load messages on page load
+        loadMessages();
+
+        // Refresh every 10 seconds
+        setInterval(loadMessages, 10000);
+    </script>
+</body>
+</html>
